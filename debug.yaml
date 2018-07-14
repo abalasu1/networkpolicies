@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: debug
+  labels:
+    purpose: debug     
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: debugclient
+  namespace: debug
+  labels:
+    purpose: curl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      purpose: curl    
+  template:
+    metadata:
+      labels:
+        purpose: curl         
+    spec:
+      containers:
+      - image: tutum/curl
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]      
+        name: debug-container
+        imagePullPolicy: Always
