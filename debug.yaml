@@ -11,16 +11,16 @@ metadata:
   name: debugclient
   namespace: debug
   labels:
-    purpose: curl
+    app: curl
 spec:
   replicas: 1
   selector:
     matchLabels:
-      purpose: curl    
+      app: curl    
   template:
     metadata:
       labels:
-        purpose: curl         
+        app: curl         
     spec:
       containers:
       - image: tutum/curl
