@@ -203,18 +203,18 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: compositeop-port
+          name: compoop-port
         env:
         - name: VERSION
           value: "v1.0.0"        
         - name: ADDURI
-          value: "http://svc-add:8080/basicop/add"
+          value: "http://svc-add.calc-backend:8080/basicop/add"
         - name: SUBURI
-          value: "http://svc-subtract:8080/basicop/subtract"
+          value: "http://svc-subtract.calc-backend:8080/basicop/subtract"
         - name: MULURI
-          value: "http://svc-multiply:8080/basicop/multiply"
+          value: "http://svc-multiply.calc-backend:8080/basicop/multiply"
         - name: DIVURI
-          value: "http://svc-divide:8080/basicop/divide"
+          value: "http://svc-divide.calc-backend:8080/basicop/divide"
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
