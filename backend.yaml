@@ -1,0 +1,241 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: calc-backend
+  labels:
+    purpose: calc-backend  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-add
+  namespace: calc-backend
+  labels:
+    app: add
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: add
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-add
+  namespace: calc-backend
+  labels:
+    app: add
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add    
+  template:
+    metadata:
+      labels:
+        app: add         
+    spec:
+      containers:
+      - image: arunimi/add:v1.0.0
+        name: add-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-subtract
+  namespace: calc-backend
+  labels:
+    app: subtract
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: subtract
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-subtract
+  namespace: calc-backend
+  labels:
+    app: subtract
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subtract    
+  template:
+    metadata:
+      labels:
+        app: subtract         
+    spec:
+      containers:
+      - image: arunimi/subtract:v1.0.0
+        name: subtract-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-multiply
+  namespace: calc-backend
+  labels:
+    app: multiply
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: multiply
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-multiply
+  namespace: calc-backend
+  labels:
+    app: multiply
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multiply     
+  template:
+    metadata:
+      labels:
+        app: multiply         
+    spec:
+      containers:
+      - image: arunimi/multiply:v1.0.0
+        name: multiply-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-divide
+  namespace: calc-backend
+  labels:
+    app: divide
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: divide
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-divide
+  namespace: calc-backend
+  labels:
+    app: divide
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: divide    
+  template:
+    metadata:
+      labels:
+        app: divide         
+    spec:
+      containers:
+      - image: arunimi/divide:v1.0.0
+        name: divide-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-compositeop
+  namespace: calc-backend
+  labels:
+    app: compositeop
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: compositeop
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-compositeop
+  namespace: calc-backend
+  labels:
+    app: compositeop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: compositeop       
+  template:
+    metadata:
+      labels:
+        app: compositeop       
+    spec:
+      containers:
+      - image: arunimi/compositeop:v1.0.0
+        name: compositeop-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+        env:
+        - name: VERSION
+          value: "v1.0.0"        
+        - name: ADDURI
+          value: "http://svc-add/basicop/add"
+        - name: SUBURI
+          value: "http://svc-subtract/basicop/subtract"
+        - name: MULURI
+          value: "http://svc-multiply/basicop/multiply"
+        - name: DIVURI
+          value: "http://svc-divide/basicop/divide"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cmdpod
+  namespace: calc-backend
+  labels:
+    purpose: cmdpodbe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      purpose: cmdpodbe    
+  template:
+    metadata:
+      labels:
+        purpose: cmdpodbe         
+    spec:
+      containers:
+      - image: tutum/curl
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]      
+        name: cmdpod-container
+        imagePullPolicy: Always
