@@ -55,7 +55,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
       name: http
   selector:
     app: subtract
@@ -95,7 +95,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
       name: http
   selector:
     app: multiply
@@ -135,7 +135,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
       name: http
   selector:
     app: divide
@@ -175,7 +175,7 @@ metadata:
 spec:
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
       name: http
   selector:
     app: compositeop
