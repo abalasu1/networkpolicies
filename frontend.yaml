@@ -45,10 +45,12 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: http-server
+          name: processor-port
         env:
         - name: OPSERVICEHOST
-          value: "http://svc-compositeop.calc-backend:8080"
+          value: "http://svc-compositeop.calc-backend"
+        - name: OPSERVICEPORT
+          value: "8080"          
 ---
 apiVersion: v1
 kind: Service

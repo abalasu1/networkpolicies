@@ -83,7 +83,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: http-server
+          name: subtract-port
 ---
 apiVersion: v1
 kind: Service
@@ -123,7 +123,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: http-server
+          name: multiply-port
 ---
 apiVersion: v1
 kind: Service
@@ -163,7 +163,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: http-server
+          name: divide-port
 ---
 apiVersion: v1
 kind: Service
@@ -203,7 +203,7 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-          name: http-server
+          name: compositeop-port
         env:
         - name: VERSION
           value: "v1.0.0"        
