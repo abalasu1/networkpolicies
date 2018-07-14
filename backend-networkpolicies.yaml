@@ -1,0 +1,114 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-add
+  namespace: calc-backend  
+spec:
+  podSelector:
+    matchLabels:
+      app: add
+  ingress:
+  - ports:
+    - port: 80  
+    from:
+    - podSelector:
+        matchLabels:
+          purpose: debug       
+    - podSelector:
+        matchLabels:
+          app: compositeop
+    - namespaceSelector:
+        matchLabels:
+          purpose: debug                    
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-subtract
+  namespace: calc-backend  
+spec:
+  podSelector:
+    matchLabels:
+      app: subtract
+  ingress:
+  - ports:
+    - port: 80   
+    from: 
+    - podSelector:
+        matchLabels:
+          purpose: debug        
+    - podSelector:
+        matchLabels:
+          app: compositeop
+    - namespaceSelector:
+        matchLabels:
+          purpose: debug           
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-multiply
+  namespace: calc-backend  
+spec:
+  podSelector:
+    matchLabels:
+      app: multiply
+  ingress:  
+  - ports:
+    - port: 80   
+    from:
+    - podSelector:
+        matchLabels:
+          purpose: debug   
+    - podSelector:
+        matchLabels:
+          app: compositeop
+    - namespaceSelector:
+        matchLabels:
+          purpose: debug           
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-divide
+  namespace: calc-backend  
+spec:
+  podSelector:
+    matchLabels:
+      app: divide
+  ingress:
+  - ports:
+    - port: 80      
+    from:
+    - podSelector:
+        matchLabels:
+          purpose: debug  
+    - podSelector:
+        matchLabels:
+          app: compositeop
+    - namespaceSelector:
+        matchLabels:
+          purpose: debug           
+---
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-compositeop
+  namespace: calc-backend  
+spec:
+  podSelector:
+    matchLabels:
+      app: compositeop
+  ingress:
+  - ports:
+    - port: 80   
+    from:
+    - podSelector:
+        matchLabels:
+          purpose: debug        
+    - namespaceSelector:
+        matchLabels:
+          purpose: calc-frontend
+    - namespaceSelector:
+        matchLabels:
+          purpose: debug
