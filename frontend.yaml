@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: calc-frontend
+  labels:
+    purpose: calc-frontend 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-processor
+  namespace: calc-frontend
+  labels:
+    app: processor
+spec:
+  ports:
+    - port: 80
+      targetPort: 8080
+      name: http
+  selector:
+    app: processor
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api-processor
+  namespace: calc-frontend
+  labels:
+    app: processor
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: processor    
+  template:
+    metadata:
+      labels:
+        app: processor         
+    spec:
+      containers:
+      - image: arunimi/processor:v1.0.0
+        name: processor-container
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http-server
+        env:
+        - name: OPSERVICEHOST
+          value: "http://svc-compositeop.calc-backend"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+  namespace: calc-frontend
+  labels:
+    app: ui   
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+    name: http
+  selector:
+    app: ui
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ui
+  namespace: calc-frontend  
+  labels:
+    app: ui
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      labels:
+        app: ui       
+    spec:
+      containers:
+      - name: ui-container
+        image: arunimi/ui:v1.0.0
+        imagePullPolicy: Always   
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 8080
+          name: http-server
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cmdpod
+  namespace: calc-frontend
+  labels:
+    purpose: cmdpodfe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      purpose: cmdpodfe    
+  template:
+    metadata:
+      labels:
+        purpose: cmdpodfe         
+    spec:
+      containers:
+      - image: tutum/curl
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]      
+        name: debug-container
+        imagePullPolicy: Always
