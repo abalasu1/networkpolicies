@@ -103,16 +103,16 @@ metadata:
   name: cmdpod
   namespace: calc-frontend
   labels:
-    purpose: cmdpodfe
+    app: cmdpodfe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      purpose: cmdpodfe    
+      app: cmdpodfe    
   template:
     metadata:
       labels:
-        purpose: cmdpodfe         
+        app: cmdpodfe         
     spec:
       containers:
       - image: tutum/curl

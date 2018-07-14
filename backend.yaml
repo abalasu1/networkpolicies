@@ -222,16 +222,16 @@ metadata:
   name: cmdpod
   namespace: calc-backend
   labels:
-    purpose: cmdpodbe
+    app: cmdpodbe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      purpose: cmdpodbe    
+      app: cmdpodbe    
   template:
     metadata:
       labels:
-        purpose: cmdpodbe         
+        app: cmdpodbe         
     spec:
       containers:
       - image: tutum/curl
