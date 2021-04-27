@@ -60,7 +60,7 @@ spec:
   selector:
     app: subtract
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-subtract
@@ -100,7 +100,7 @@ spec:
   selector:
     app: multiply
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-multiply
@@ -140,7 +140,7 @@ spec:
   selector:
     app: divide
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-divide
@@ -180,7 +180,7 @@ spec:
   selector:
     app: compositeop
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-compositeop
@@ -216,7 +216,7 @@ spec:
         - name: DIVURI
           value: "http://svc-divide.calc-backend:8080/basicop/divide"
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cmdpod
